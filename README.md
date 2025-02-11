@@ -22,15 +22,7 @@ git clone https://github.com/dzakisalman/DateFormatConverter.git
 cd DateFormatConverter
 ```
 
-### 2️⃣ **Create a Virtual Environment & Install Dependencies**
-```bash
-python -m venv venv
-source venv/bin/activate  # For Linux/macOS
-venv\Scripts\activate     # For Windows
-pip install -r requirements.txt
-```
-
-### 3️⃣ **Run the Application**
+### 2️⃣ **Run the Application**
 ```bash
 python app.py
 ```
