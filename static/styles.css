@@ -1,0 +1,25 @@
+body {
+    background: linear-gradient(135deg, #4a90e2, #87ceeb); /* Warna biru gradasi */
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0;
+}
+
+.container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+}
+
+.card {
+    max-width: 600px;
+    width: 100%;
+    border-radius: 15px;
+    text-align: center; /* Supaya semua elemen ada di tengah */
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+    padding: 20px;
+    background: white;
+}
