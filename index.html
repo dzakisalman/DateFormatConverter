@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Date Format Converter</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="theme-switch-wrapper">
+        <label class="theme-switch" for="checkbox">
+            <input type="checkbox" id="checkbox" />
+            <div class="slider round"></div>
+        </label>
+        <em>Dark Mode</em>
+    </div>
+
+    <div class="container">
+        <h1>Date Format Converter</h1>
+        <div class="converter-box">
+            <div class="input-group">
+                <label for="inputDate">Input Date:</label>
+                <textarea id="inputDate" rows="5" placeholder="Enter dates (one per line)&#10;Example:&#10;2025-05-09 13:27:58&#10;2025-05-09 13:28:08&#10;2025-05-11 19:25:40"></textarea>
+            </div>
+            
+            <div class="format-group">
+                <label for="inputFormat">Input Format:</label>
+                <select id="inputFormat">
+                    <option value="YYYY-MM-DD HH:mm:ss">YYYY-MM-DD HH:mm:ss</option>
+                </select>
+            </div>
+
+            <div class="format-group">
+                <label for="outputFormat">Output Format:</label>
+                <select id="outputFormat">
+                    <option value="DD/MM/YYYY">DD/MM/YYYY</option>
+                </select>
+            </div>
+
+            <button onclick="convertDate()">Convert</button>
+
+            <div class="result-group">
+                <label for="result">Result:</label>
+                <textarea id="result" readonly rows="5"></textarea>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Dark mode toggle functionality
+        const toggleSwitch = document.querySelector('.theme-switch input[type="checkbox"]');
+        const currentTheme = localStorage.getItem('theme');
+
+        if (currentTheme) {
+            document.documentElement.setAttribute('data-theme', currentTheme);
+            if (currentTheme === 'dark') {
+                toggleSwitch.checked = true;
+            }
+        }
+
+        function switchTheme(e) {
+            if (e.target.checked) {
+                document.documentElement.setAttribute('data-theme', 'dark');
+                localStorage.setItem('theme', 'dark');
+            } else {
+                document.documentElement.setAttribute('data-theme', 'light');
+                localStorage.setItem('theme', 'light');
+            }    
+        }
+
+        toggleSwitch.addEventListener('change', switchTheme, false);
+
+        // Date conversion functionality
+        function convertDate() {
+            const inputDate = document.getElementById('inputDate').value;
+            const resultElement = document.getElementById('result');
+            
+            try {
+                // Split input by newlines and filter out empty lines
+                const dates = inputDate.split('\n').filter(date => date.trim() !== '');
+                
+                if (dates.length === 0) {
+                    throw new Error('Please enter at least one date');
+                }
+
+                const results = dates.map(dateStr => {
+                    // Parse the datetime string
+                    const [datePart, timePart] = dateStr.trim().split(' ');
+                    const [year, month, day] = datePart.split('-').map(num => parseInt(num));
+
+                    // Validate the date
+                    const date = new Date(year, month - 1, day);
+                    if (date.getFullYear() !== year || date.getMonth() !== month - 1 || date.getDate() !== day) {
+                        throw new Error(`Invalid date: ${dateStr}`);
+                    }
+
+                    // Format as DD/MM/YYYY
+                    return `${String(day).padStart(2, '0')}/${String(month).padStart(2, '0')}/${year}`;
+                });
+
+                // Join all results with newlines
+                resultElement.value = results.join('\n');
+            } catch (error) {
+                resultElement.value = error.message || 'Invalid date format';
+            }
+        }
+    </script>
+</body>
+</html> 
